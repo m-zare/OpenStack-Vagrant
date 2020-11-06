@@ -1,7 +1,7 @@
 name             'openstack-wrapper'
 maintainer       'Mostafa Zare'
 maintainer_email 'mostafazare@gmail.com'
-license          'Apache License 2.0'
+license          'MIT'
 description      'Installs/Configures openstack-wrapper'
 version          '0.1.0'
 
