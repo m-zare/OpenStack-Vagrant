@@ -1,0 +1,246 @@
+{
+  "name": "multinode_compute",
+  "description": "",
+  "cookbook_versions": {
+
+  },
+  "json_class": "Chef::Environment",
+  "chef_type": "environment",
+  "default_attributes": {
+    "apache": {
+      "listen": [
+
+      ]
+    }
+  },
+  "override_attributes": {
+    "openstack": {
+      "release": "ussri",
+      "is_release": false,
+      "apt": {
+        "update_apt_cache": true,
+        "live_updates_enabled": false
+      },
+      "bind_service": {
+        "all": {
+          "bare_metal": {
+            "host": "0.0.0.0"
+          },
+          "network": {
+            "host": "0.0.0.0"
+          },
+          "image_api": {
+            "host": "0.0.0.0"
+          },
+          "block-storage": {
+            "host": "0.0.0.0"
+          },
+          "compute-api": {
+            "host": "0.0.0.0"
+          },
+          "compute-metadata-api": {
+            "host": "0.0.0.0"
+          },
+          "compute-novnc": {
+            "host": "0.0.0.0"
+          },
+          "orchestration-api": {
+            "host": "0.0.0.0"
+          },
+          "orchestration-api-cfn": {
+            "host": "0.0.0.0"
+          },
+          "placement-api": {
+            "host": "0.0.0.0"
+          }
+        },
+        "db": {
+          "host": "192.168.50.243"
+        },
+        "mq": {
+          "host": "192.168.50.243"
+        },
+        "public": {
+          "identity": {
+            "host": "0.0.0.0"
+          }
+        },
+        "internal": {
+          "identity": {
+            "host": "0.0.0.0"
+          }
+        }
+      },
+      "compute": {
+        "platform": {
+          "libvirt_packages": [
+            "python3-guestfs"
+          ]
+        },
+        "libvirt": {
+          "libvirtd_opts": ""
+        },
+        "conf": {
+          "libvirt": {
+            "cpu_type": "none",
+            "virt_type": "qemu"
+          },
+          "transport_url": {
+            "rabbit_host": "192.168.50.243"
+          }
+        }
+      },
+      "telemetry": {
+        "conf": {
+          "DEFAULT": {
+            "meter_dispatchers": "database"
+          }
+        }
+      },
+      "integration-test": {
+        "conf": {
+          "service_available": {
+            "ceilometer": false,
+            "heat": false,
+            "horizon": false
+          }
+        }
+      },
+      "endpoints": {
+        "db": {
+          "host": "192.168.50.243"
+        },
+        "mq": {
+          "host": "192.168.50.243"
+        },
+        "internal": {
+          "bare_metal": {
+            "host": "192.168.50.243"
+          },
+          "identity": {
+            "host": "192.168.50.243"
+          },
+          "network": {
+            "host": "192.168.50.243"
+          },
+          "image_api": {
+            "host": "192.168.50.243"
+          },
+          "block-storage": {
+            "host": "192.168.50.243"
+          },
+          "compute-api": {
+            "host": "192.168.50.243"
+          },
+          "compute-metadata-api": {
+            "host": "192.168.50.243"
+          },
+          "compute-novnc": {
+            "host": "192.168.50.243"
+          },
+          "orchestration-api": {
+            "host": "192.168.50.243"
+          },
+          "orchestration-api-cfn": {
+            "host": "192.168.50.243"
+          },
+          "placement-api": {
+            "host": "192.168.50.243"
+          }
+        },
+        "public": {
+          "bare_metal": {
+            "host": "192.168.50.243"
+          },
+          "identity": {
+            "host": "192.168.50.243"
+          },
+          "network": {
+            "host": "192.168.50.243"
+          },
+          "image_api": {
+            "host": "192.168.50.243"
+          },
+          "block-storage": {
+            "host": "192.168.50.243"
+          },
+          "compute-api": {
+            "host": "192.168.50.243"
+          },
+          "compute-metadata-api": {
+            "host": "192.168.50.243"
+          },
+          "compute-novnc": {
+            "host": "192.168.50.243"
+          },
+          "orchestration-api": {
+            "host": "192.168.50.243"
+          },
+          "orchestration-api-cfn": {
+            "host": "192.168.50.243"
+          },
+          "placement-api": {
+            "host": "192.168.50.243"
+          }
+        }
+      },
+      "dashboard": {
+        "server_hostname": "controller"
+      },
+      "memcached_servers": [
+        "192.168.50.243:11211"
+      ],
+      "mq": {
+        "user": "admin"
+      },
+      "network": {
+        "tun_network_bridge_interface": "enp0s8",
+        "provider_network_interface": "enp0s9",
+        "conf": {
+          "DEFAULT": {
+            "core_plugin": "ml2",
+            "auth_strategy": "keystone"
+          },
+          "transport_url": {
+            "rabbit_host": "192.168.50.243"
+          }
+        },
+        "plugins": {
+          "openvswitch": {
+            "path": "/etc/neutron/plugins/ml2",
+            "filename": "openvswitch_agent.ini",
+            "conf": {
+              "ovs": {
+                "bridge_mappings": "provider:br-provider"
+              },
+              "agent": {
+                "tunnel_types": "vxlan",
+                "l2_population": "true"
+              },
+              "securitygroup": {
+                "firewall_driver": "iptables_hybrid"
+              }
+            }
+          }
+        }
+      },
+      "network_dhcp": {
+        "conf": {
+          "DEFAULT": {
+            "interface_driver": "openvswitch"
+          }
+        }
+      },
+      "network_metadata": {
+        "conf": {
+          "DEFAULT": {
+            "nova_metadata_ip": "controller"
+          }
+        }
+      },
+      "image": {
+        "image_upload": true
+      }
+    }
+  }
+}
