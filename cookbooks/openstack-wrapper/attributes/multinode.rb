@@ -1,4 +1,4 @@
-default['controller']['ip'] = '192.168.50.243'
+default['controller']['ip'] = '192.168.100.25'
 default['controller']['hostname'] = 'controller'
 default['controller']['bridge_interface'] = 'enp0s8'
 default['controller']['provider_interface'] = 'enp0s9'

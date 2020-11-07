@@ -55,10 +55,10 @@
           }
         },
         "db": {
-          "host": "192.168.50.243"
+          "host": "192.168.100.25"
         },
         "mq": {
-          "host": "192.168.50.243"
+          "host": "192.168.100.25"
         },
         "public": {
           "identity": {
@@ -86,7 +86,7 @@
             "virt_type": "qemu"
           },
           "transport_url": {
-            "rabbit_host": "192.168.50.243"
+            "rabbit_host": "192.168.100.25"
           }
         }
       },
@@ -108,79 +108,79 @@
       },
       "endpoints": {
         "db": {
-          "host": "192.168.50.243"
+          "host": "192.168.100.25"
         },
         "mq": {
-          "host": "192.168.50.243"
+          "host": "192.168.100.25"
         },
         "internal": {
           "bare_metal": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           },
           "identity": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           },
           "network": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           },
           "image_api": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           },
           "block-storage": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           },
           "compute-api": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           },
           "compute-metadata-api": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           },
           "compute-novnc": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           },
           "orchestration-api": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           },
           "orchestration-api-cfn": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           },
           "placement-api": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           }
         },
         "public": {
           "bare_metal": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           },
           "identity": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           },
           "network": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           },
           "image_api": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           },
           "block-storage": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           },
           "compute-api": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           },
           "compute-metadata-api": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           },
           "compute-novnc": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           },
           "orchestration-api": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           },
           "orchestration-api-cfn": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           },
           "placement-api": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           }
         }
       },
@@ -188,7 +188,7 @@
         "server_hostname": "controller"
       },
       "memcached_servers": [
-        "192.168.50.243:11211"
+        "192.168.100.25:11211"
       ],
       "mq": {
         "user": "admin"
@@ -202,7 +202,7 @@
             "auth_strategy": "keystone"
           },
           "transport_url": {
-            "rabbit_host": "192.168.50.243"
+            "rabbit_host": "192.168.100.25"
           }
         },
         "plugins": {
