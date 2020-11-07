@@ -6,7 +6,9 @@ $network_configuration = <<SCRIPT
 sed -ie '/enp0s9/,$d' /etc/netplan/50-vagrant.yaml
 echo "    enp0s9: {}" >> /etc/netplan/50-vagrant.yaml
 netplan apply
+SCRIPT
 
+$set_env = <<SCRIPT
 # set controller ip in environment files
 NODE_IP=$(ip route | grep default | egrep -o [0-9]+\.[0-9]+\.[0-9]+\.[0-9]+ | tail -n 1)
 if [[ -n $NODE_IP ]]; then
@@ -70,6 +72,9 @@ Vagrant.configure("2") do |config|
     node.vm.provision "shell",
       inline: $network_configuration
       
+    node.vm.provision "shell",
+      inline: $set_env
+
     # install chef
     node.vm.provision "shell",
       inline: $chef_install
@@ -104,6 +109,9 @@ Vagrant.configure("2") do |config|
 
     node.vm.provision "shell",
       inline: $network_configuration
+      
+    node.vm.provision "shell",
+      inline: $set_env
       
     # install chef
     node.vm.provision "shell",
