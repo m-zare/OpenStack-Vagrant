@@ -48,7 +48,7 @@ Vagrant.configure("2") do |config|
 ######################################################################
   config.vm.define "controller" do |node|
     node.vm.provider "virtualbox" do |v|
-      v.memory = 5120
+      v.memory = 6144
       v.cpus = 2
     end
     node.vm.hostname = "controller"
@@ -108,6 +108,7 @@ Vagrant.configure("2") do |config|
       run: "always",
       inline: "ip addr flush enp0s9"
     
+    # add controller to /etc/hosts
     node.vm.provision "shell",
       inline: "echo $(head -n 1 /vagrant/cookbooks/openstack-wrapper/attributes/multinode.rb |  egrep -o [0-9]+\.[0-9]+\.[0-9]+\.[0-9]+) controller >> /etc/hosts"
 
