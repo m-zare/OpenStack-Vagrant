@@ -116,10 +116,11 @@ Vagrant.configure("2") do |config|
       chef.nodes_path = "chef/nodes"
       chef.environments_path = "chef/environments"
       chef.environment = "multinode_compute"
-      chef.cookbooks_path = "cookbooks"
+      chef.cookbooks_path = ["cookbooks","chef/third-party-cookbooks"]
       chef.add_recipe "openstack-wrapper::multinode_compute"
     end
 
+    # revert environment updates
     node.vm.provision "shell",
       inline: "cp /vagrant/chef/environments/multinode_controller.json.orig /vagrant/chef/environments/multinode_controller.json && cp /vagrant/chef/environments/multinode_compute.json.orig /vagrant/chef/environments/multinode_compute.json && cp /vagrant/cookbooks/openstack-wrapper/attributes/multinode.rb.orig /vagrant/cookbooks/openstack-wrapper/attributes/multinode.rb"
   end
