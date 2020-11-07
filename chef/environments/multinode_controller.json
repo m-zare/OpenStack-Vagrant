@@ -1,5 +1,5 @@
 {
-  "name": "multinode_compute",
+  "name": "multinode_controller",
   "description": "",
   "cookbook_versions": {
 
@@ -55,10 +55,10 @@
           }
         },
         "db": {
-          "host": "192.168.50.243"
+          "host": "192.168.100.25"
         },
         "mq": {
-          "host": "192.168.50.243"
+          "host": "192.168.100.25"
         },
         "public": {
           "identity": {
@@ -72,11 +72,6 @@
         }
       },
       "compute": {
-        "platform": {
-          "libvirt_packages": [
-            "python3-guestfs"
-          ]
-        },
         "libvirt": {
           "libvirtd_opts": ""
         },
@@ -86,7 +81,7 @@
             "virt_type": "qemu"
           },
           "transport_url": {
-            "rabbit_host": "192.168.50.243"
+            "rabbit_host": "192.168.100.25"
           }
         }
       },
@@ -108,79 +103,79 @@
       },
       "endpoints": {
         "db": {
-          "host": "192.168.50.243"
+          "host": "192.168.100.25"
         },
         "mq": {
-          "host": "192.168.50.243"
+          "host": "192.168.100.25"
         },
         "internal": {
           "bare_metal": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           },
           "identity": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           },
           "network": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           },
           "image_api": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           },
           "block-storage": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           },
           "compute-api": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           },
           "compute-metadata-api": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           },
           "compute-novnc": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           },
           "orchestration-api": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           },
           "orchestration-api-cfn": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           },
           "placement-api": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           }
         },
         "public": {
           "bare_metal": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           },
           "identity": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           },
           "network": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           },
           "image_api": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           },
           "block-storage": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           },
           "compute-api": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           },
           "compute-metadata-api": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           },
           "compute-novnc": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           },
           "orchestration-api": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           },
           "orchestration-api-cfn": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           },
           "placement-api": {
-            "host": "192.168.50.243"
+            "host": "192.168.100.25"
           }
         }
       },
@@ -188,7 +183,7 @@
         "server_hostname": "controller"
       },
       "memcached_servers": [
-        "192.168.50.243:11211"
+        "192.168.100.25:11211"
       ],
       "mq": {
         "user": "admin"
@@ -199,13 +194,39 @@
         "conf": {
           "DEFAULT": {
             "core_plugin": "ml2",
-            "auth_strategy": "keystone"
+            "auth_strategy": "keystone",
+            "service_plugins": "router",
+            "allow_overlapping_ips": "true"
           },
           "transport_url": {
-            "rabbit_host": "192.168.50.243"
+            "rabbit_host": "192.168.100.25"
           }
         },
         "plugins": {
+          "ml2": {
+            "path": "/etc/neutron/plugins/ml2",
+            "filename": "ml2_conf.ini",
+            "conf": {
+              "ml2": {
+                "type_drivers": "flat,vlan,vxlan",
+                "tenant_network_types": "vxlan",
+                "extension_drivers": "port_security",
+                "mechanism_drivers": "openvswitch,l2population"
+              },
+              "ml2_type_flat": {
+                "flat_networks": "provider"
+              },
+              "ml2_type_vlan": {
+                "network_vlan_ranges": "provider"
+              },
+              "ml2_type_vxlan": {
+                "vni_ranges": "1:1000"
+              },
+              "securitygroup": {
+                "enable_ipset": "true"
+              }
+            }
+          },
           "openvswitch": {
             "path": "/etc/neutron/plugins/ml2",
             "filename": "openvswitch_agent.ini",
@@ -224,17 +245,10 @@
           }
         }
       },
-      "network_dhcp": {
+      "network_l3": {
         "conf": {
           "DEFAULT": {
             "interface_driver": "openvswitch"
-          }
-        }
-      },
-      "network_metadata": {
-        "conf": {
-          "DEFAULT": {
-            "nova_metadata_ip": "controller"
           }
         }
       },

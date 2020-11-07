@@ -1,5 +1,5 @@
-vagrant/.vagrant
-vagrant/chef/chef_guid
-vagrant/chef/local-mode-cache
-vagrant/chef/third-party-cookbooks
-vagrant/cookbooks/openstack-wrapper/Berksfile.lock
+.vagrant
+chef/chef_guid
+chef/local-mode-cache
+chef/third-party-cookbooks
+cookbooks/openstack-wrapper/Berksfile.lock

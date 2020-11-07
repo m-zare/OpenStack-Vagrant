@@ -13,13 +13,13 @@ Clone/download this repo.
 Run following to get dependency cookbooks.
 
 ``` bash
-berks vendor OpenStack-Vagrant/vagrant/chef/third-party-cookbooks -b OpenStack-Vagrant/vagrant/cookbooks/openstack-wrapper/Berksfile
+berks vendor OpenStack-Vagrant/chef/third-party-cookbooks -b OpenStack-Vagrant/cookbooks/openstack-wrapper/Berksfile
 ```
 
 Run `vagrant`.
 
 ``` bash
-cd OpenStack-Vagrant/vagrant/
+cd OpenStack-Vagrant
 vagrant up
 ```
 
