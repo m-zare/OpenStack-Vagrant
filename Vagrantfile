@@ -16,7 +16,7 @@ if [[ -n $NODE_IP ]]; then
 fi
 
 # add controller to /etc/hosts
-echo $(head -n 1 /vagrant/cookbooks/openstack-wrapper/attributes/multinode.rb | egrep -o [0-9]+\.[0-9]+\.[0-9]+\.[0-9]+) controller >> /etc/hosts"
+echo $(head -n 1 /vagrant/cookbooks/openstack-wrapper/attributes/multinode.rb | egrep -o [0-9]+\.[0-9]+\.[0-9]+\.[0-9]+) controller >> /etc/hosts
 SCRIPT
 
 $chef_install = <<SCRIPT
@@ -148,4 +148,24 @@ Vagrant.configure("2") do |config|
     node.vm.provision "shell",
       inline: $router
   end
+
+  
+config.vm.define "test" do |node|
+    node.vm.provider "virtualbox" do |v|
+      v.memory = 1024
+      v.cpus = 1
+    end
+    node.vm.hostname = "test"
+    node.vm.network "private_network",
+      ip: "192.168.57.22"
+
+    # delete default gw on enp0s3
+    node.vm.provision "shell",
+      run: "always",
+      inline: "ip route del $(ip route | grep default | grep 10.0)"
+    node.vm.provision "shell",
+      run: "always",
+      inline: "ip route add default via 192.168.57.2"
+  end
+
 end
