@@ -1,6 +1,6 @@
 # provider network
 execute 'create provider network' do
-  command '. /root/openrc;openstack network create  --share --external --provider-physical-network provider --provider-network-type flat provider'
+  command '. /root/openrc;openstack network create --share --external --provider-physical-network provider --provider-network-type flat provider'
   not_if '. /root/openrc;openstack network show provider'
 end
 execute 'create provider subnet' do

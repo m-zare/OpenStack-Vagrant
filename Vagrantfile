@@ -1,18 +1,27 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-$chef_install = <<SCRIPT
-if [[ -e /vagrant/pkg/chef.deb ]]; then
-  dpkg -i /vagrant/pkg/chef.deb
-fi
-SCRIPT
+$network_configuration = <<SCRIPT
+# make enp0s9 ready for provider network
+sed -ie '/enp0s9/,$d' /etc/netplan/50-vagrant.yaml
+echo "    enp0s9: {}" >> /etc/netplan/50-vagrant.yaml
+netplan apply
 
-$script = <<SCRIPT
+# set controller ip in environment files
 NODE_IP=$(ip route | grep default | egrep -o [0-9]+\.[0-9]+\.[0-9]+\.[0-9]+ | tail -n 1)
 if [[ -n $NODE_IP ]]; then
   sed -i s/192\.168\.50\.243/$NODE_IP/g /vagrant/cookbooks/openstack-wrapper/attributes/multinode.rb
   sed -i s/192\.168\.50\.243/$NODE_IP/g /vagrant/chef/environments/multinode_controller.json
   sed -i s/192\.168\.50\.243/$NODE_IP/g /vagrant/chef/environments/multinode_compute.json
+fi
+
+# add controller to /etc/hosts
+echo $(head -n 1 /vagrant/cookbooks/openstack-wrapper/attributes/multinode.rb | egrep -o [0-9]+\.[0-9]+\.[0-9]+\.[0-9]+) controller >> /etc/hosts"
+SCRIPT
+
+$chef_install = <<SCRIPT
+if [[ -e /vagrant/pkg/chef.deb ]]; then
+  dpkg -i /vagrant/pkg/chef.deb
 fi
 SCRIPT
 
@@ -55,8 +64,12 @@ Vagrant.configure("2") do |config|
     node.vm.network "public_network",
       type: "dhcp"
     node.vm.network "private_network",
+      auto_config: false,
       ip: "192.168.57.3"
 
+    node.vm.provision "shell",
+      inline: $network_configuration
+      
     # install chef
     node.vm.provision "shell",
       inline: $chef_install
@@ -65,13 +78,6 @@ Vagrant.configure("2") do |config|
     node.vm.provision "shell",
       run: "always",
       inline: "ip route del $(ip route | grep default | grep 10.0)"
-
-    node.vm.provision "shell",
-      run: "always",
-      inline: "ip addr flush enp0s9"
-
-    node.vm.provision "shell",
-      inline: $script
 
     node.vm.provision "chef_zero" do |chef|
       chef.custom_config_path = "chef/CustomConfiguration.chef"
@@ -93,8 +99,12 @@ Vagrant.configure("2") do |config|
     node.vm.network "public_network",
       type: "dhcp"
     node.vm.network "private_network",
+      auto_config: false,
       ip: "192.168.57.4"
 
+    node.vm.provision "shell",
+      inline: $network_configuration
+      
     # install chef
     node.vm.provision "shell",
       inline: $chef_install
@@ -103,15 +113,7 @@ Vagrant.configure("2") do |config|
     node.vm.provision "shell",
       run: "always",
       inline: "ip route del $(ip route | grep default | grep 10.0)"
-
-    node.vm.provision "shell",
-      run: "always",
-      inline: "ip addr flush enp0s9"
     
-    # add controller to /etc/hosts
-    node.vm.provision "shell",
-      inline: "echo $(head -n 1 /vagrant/cookbooks/openstack-wrapper/attributes/multinode.rb |  egrep -o [0-9]+\.[0-9]+\.[0-9]+\.[0-9]+) controller >> /etc/hosts"
-
     node.vm.provision "chef_zero" do |chef|
       chef.custom_config_path = "chef/CustomConfiguration.chef"
       chef.nodes_path = "chef/nodes"
