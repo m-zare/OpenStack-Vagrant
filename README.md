@@ -13,20 +13,20 @@ Clone/download this repo.
 Run following to get dependency cookbooks.
 
 ``` bash
-berks vendor vagrant/chef/third-party-cookbooks -b vagrant/cookbooks/openstack_wrapper/Berksfile
+berks vendor OpenStack-Vagrant/vagrant/chef/third-party-cookbooks -b OpenStack-Vagrant/vagrant/cookbooks/openstack-wrapper/Berksfile
 ```
 
 Run `vagrant`.
 
 ``` bash
-cd vagrant/
+cd OpenStack-Vagrant/vagrant/
 vagrant up
 ```
 
 ### Optional
 
-To setup sample network and create test instances:
+To setup sample network and create test instances run following on `controller` node:
 
 ``` bash
-chef-client -z -o openstack_wrapper::sample_network --config /vagrant/chef/client.rb
+chef-client -z -o openstack-wrapper::sample_network --config /vagrant/chef/client.rb
 ```
